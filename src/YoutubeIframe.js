@@ -126,20 +126,22 @@ const YoutubeIframe = (props, ref) => {
   );
 
   useEffect(() => {
+    if (!playerReady) return;
     if (play) {
-      sendPostMessage('playVideo', {});
+      webViewRef.current.injectJavaScript(PLAYER_FUNCTIONS.playVideo);
     } else {
-      sendPostMessage('pauseVideo', {});
+      webViewRef.current.injectJavaScript(PLAYER_FUNCTIONS.pauseVideo);
     }
-  }, [play, sendPostMessage]);
+  }, [play, playerReady, webViewRef]);
 
   useEffect(() => {
+    if (!playerReady) return;
     if (mute) {
-      sendPostMessage('muteVideo', {});
+      webViewRef.current.injectJavaScript(PLAYER_FUNCTIONS.muteVideo);
     } else {
-      sendPostMessage('unMuteVideo', {});
+      webViewRef.current.injectJavaScript(PLAYER_FUNCTIONS.unMuteVideo);
     }
-  }, [mute, sendPostMessage]);
+  }, [mute, playerReady, sendPostMessage]);
 
   useEffect(() => {
     sendPostMessage('setVolume', {volume});
